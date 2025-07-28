@@ -40,11 +40,28 @@ def radix_sort(arr):
         counting_sort(arr, exp)
         exp *= 10
 
+def digit_count(x):
+    if x < 10: return 1
+    elif x < 100: return 2
+    elif x < 1000: return 3
+    elif x < 10_000: return 4
+    elif x < 100_000: return 5
+    elif x < 1_000_000: return 6
+    elif x < 10_000_000: return 7
+    elif x < 100_000_000: return 8
+    elif x < 1_000_000_000: return 9
+    elif x < 10_000_000_000: return 10
+    elif x < 100_000_000_000: return 11
+    elif x < 1_000_000_000_000: return 12
+    elif x < 10_000_000_000_000: return 13
+    elif x < 100_000_000_000_000: return 14
+    else: return 15
+
 def optimized_radix_sort(arr):
     digit_class = {}
 
     for num in arr:
-        num_digits = len(str(num))
+        num_digits = digit_count(num)#len(str(num))
         if num_digits not in digit_class:
             digit_class[num_digits] = []
         digit_class[num_digits].append(num)
@@ -53,21 +70,21 @@ def optimized_radix_sort(arr):
         radix_sort(digit_class[digit_length])
 
     sorted_arr = []
-    for digit_length in sorted(digit_class):
+    for digit_length in (digit_class):
         sorted_arr.extend(digit_class[digit_length])
 
     return sorted_arr
 
 def generate_random_numbers(num_integers, max_digits):
     result = []
-    num_per_digit_length = num_integers // max_digits
+    num_per_digit_length = num_integers // max_digits # get equal number of integers for each digit
 
     for digits in range(1, max_digits + 1):
-        lower_bound = 10**(digits - 1)
+        lower_bound = 10**(digits - 1) # define upper and lower bound for each digit lenght
         upper_bound = 10**digits - 1
 
         for _ in range(num_per_digit_length):
-            result.append(random.randint(lower_bound, upper_bound))
+            result.append(random.randint(lower_bound, upper_bound)) #get random number for each digit
 
     remaining = num_integers - len(result)
     if remaining > 0:
@@ -136,8 +153,8 @@ num_integers = 1000000
 max_large_digits = 15
 max_small_digits = 5
 num_range = 100
-random_integers = generate_random_numbers_2(num_integers, max_large_digits, max_small_digits, num_range)
-#random_integers = generate_random_numbers(num_integers, max_large_digits)
+#random_integers = generate_random_numbers_2(num_integers, max_large_digits, max_small_digits, num_range)
+random_integers = generate_random_numbers(num_integers, max_large_digits)
 
 # Measure time for quicksort
 start_time = time.time()
